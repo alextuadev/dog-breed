@@ -40,13 +40,11 @@ const Breeds = () => {
       </div>
 
       <div className="row mt-3">
-        <div className="col-12">
-          <BreedList
-            subBreed={subBreed}
-          />
 
+        <BreedList
+          subBreed={subBreed}
+        />
 
-        </div>
       </div>
     </>
   );

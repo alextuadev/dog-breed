@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchBreeds } from '../api';
+import { fetchBreeds, fetchBreedDetail } from '../api';
 
 const initialState = {
   breedList: [],
@@ -17,6 +17,16 @@ export const getBreedList = createAsyncThunk(
     return data.message;
   }
 );
+/*
+export const getBreedList = createAsyncThunk(
+  'breeds/getDetail',
+  async (breedName) => {
+    const response = await fetchBreedDetail(breedName);
+    const data = await response.json();
+    return data.message;
+  }
+);
+*/
 
 export const breedSlice = createSlice({
   name: 'breeds',

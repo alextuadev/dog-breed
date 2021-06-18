@@ -3,34 +3,58 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   getBreedList,
   selectBreedList,
+  selectSubBreedDetails,
+  getSubBreedDetails
 } from '../reducers/breeds';
 import '../styles.css'
+import ModalGallery from './ModalGallery';
 
 const BreedList = () => {
   const breedList = useSelector(selectBreedList);
+  const subBreedDetail = useSelector(selectSubBreedDetails);
+
   const [subBreedList, setSubBreedList] = useState([]);
+  const [breedSelected, setBreedSelected] = useState('');
+  const [subBreedSelected, setSubBreedSelected] = useState('');
+  const [modalClass, setModalClass] = useState('modal fade');
+
+  const [isFavorite, setisFavorite] = useState(false);
+
+
+  const setSubBreed = (key) => {
+    setBreedSelected(key)
+    setSubBreedList(breedList[key]);
+  }
 
   const dispatch = useDispatch();
 
-  const showDetails = (element) => {
-    console.log("element")
+  const showDetails = (subbreed) => {
+    setModalClass('modal fade d-block show')
+
+    setSubBreedSelected(subbreed)
+    let data = [];
+    data['breedName'] = breedSelected
+    data['subbreed'] = subbreed
+
+    dispatch(getSubBreedDetails(data))
+
   }
 
   useEffect(() => {
-    console.log(subBreedList)
+
   });
 
   return (
     <>
       <h3 className="mt-3">All Breeds</h3>
       <div className="col-6">
-        <ul class="list-group">
+        <ul className="list-group">
           {
             Object.keys(breedList).map((key, index) =>
               <li
                 className="pointer list-group-item"
                 key={index}
-                onClick={() => setSubBreedList(breedList[key])}>{key}</li>
+                onClick={() => setSubBreed(key)}>{key}</li>
             )
           }
         </ul>
@@ -41,10 +65,10 @@ const BreedList = () => {
           ?
           <>
             <h4>Sub-breeds</h4>
-            <ul class="list-group">
+            <ul className="list-group">
               {
                 subBreedList.map((el, index) =>
-                  <li className="list-group-item"
+                  <li className="pointer list-group-item"
                     key={index}
                     onClick={() => showDetails(el)}>
                     {el}
@@ -56,8 +80,17 @@ const BreedList = () => {
           :
           <h4>Don't has sub-breed</h4>
         }
-
       </div>
+
+      <ModalGallery
+        modalClass={modalClass}
+        setModalClass={setModalClass.bind()}
+        setisFavorite={setisFavorite.bind()}
+        isFavorite={isFavorite}
+        subBreedSelected={subBreedSelected}
+
+      />
+
     </>
   );
 }

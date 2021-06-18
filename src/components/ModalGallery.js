@@ -4,28 +4,47 @@ import {
   getBreedList,
   selectBreedList,
   selectSubBreedDetails,
-  getSubBreedDetails
+  getSubBreedDetails,
+  selectFavoriteDog,
+  setFavoriteDog
 } from '../reducers/breeds';
 import '../styles.css'
 
-const ModalGallery = ({ subBreedSelected, modalClass, setModalClass, isFavorite, setisFavorite }) => {
+const ModalGallery = ({ subBreedSelected, modalClass, setModalClass }) => {
+  const dispatch = useDispatch();
+
   const breedList = useSelector(selectBreedList);
   const subBreedDetail = useSelector(selectSubBreedDetails);
-
+  const favoriteDog = useSelector(selectFavoriteDog);
 
   const [subBreedList, setSubBreedList] = useState([]);
   const [breedSelected, setBreedSelected] = useState('');
 
-  // const [isFavorite, setisFavorite] = useState(false);
+  const [isFavorite, setisFavorite] = useState(false);
 
-  /*const [subBreedSelected, setSubBreedSelected] = useState('');*/
+
   const [mClass, setmClass] = useState('');
 
-  const dispatch = useDispatch();
+  const setFavorite = (favorite) => {
+    if (favoriteDog) {
+      if (window.confirm("You have a favorite Dog. Do you want change it?")) {
+        dispatch(setFavoriteDog(favorite));
+        setisFavorite(true);
+      }
+    } else {
+      setisFavorite(true);
+      dispatch(setFavoriteDog(favorite));
+    }
+  }
+
 
   useEffect(() => {
-
-  }, []);
+    console.log("favoriteDog", favoriteDog)
+    setisFavorite(false)
+    if (favoriteDog === subBreedSelected) {
+      setisFavorite(true)
+    }
+  }, [subBreedSelected]);
 
   return (
     <>
@@ -44,10 +63,10 @@ const ModalGallery = ({ subBreedSelected, modalClass, setModalClass, isFavorite,
                 <h3>{subBreedSelected}</h3>
 
                 {isFavorite ?
-                  <h5>Is Your favorite</h5> :
+                  <h5 className="red">Is Your favorite</h5> :
                   <button
                     className="btn btn-primary btn-small"
-                    onClick={() => setisFavorite()} >Mark as favorite</button>
+                    onClick={() => setFavorite(subBreedSelected)} >Mark as favorite</button>
                 }
 
               </div>

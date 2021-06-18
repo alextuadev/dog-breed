@@ -44,6 +44,9 @@ export const breedSlice = createSlice({
 
       state.breedList = filtered;
     },
+    setFavoriteDog: (state, action) => {
+      state.favoriteDog = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -61,10 +64,11 @@ export const breedSlice = createSlice({
   },
 });
 
-export const { filterByName } = breedSlice.actions;
+export const { filterByName, setFavoriteDog } = breedSlice.actions;
 
 export const selectBreedList = (state) => state.breed.breedList;
 export const selectSubBreedDetails = (state) => state.breed.subBreedDetail;
+export const selectFavoriteDog = (state) => state.breed.favoriteDog;
 
 
 

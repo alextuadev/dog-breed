@@ -4,6 +4,7 @@ import { fetchBreeds, fetchBreedDetail, fetchSubBreedDetail } from '../api';
 const initialState = {
   breedList: [],
   favoriteDog: false,
+  favoriteBreedDog: false,
   subBreedList: []
 };
 
@@ -45,7 +46,8 @@ export const breedSlice = createSlice({
       state.breedList = filtered;
     },
     setFavoriteDog: (state, action) => {
-      state.favoriteDog = action.payload
+      state.favoriteDog = action.payload.subbreed
+      state.favoriteBreedDog = action.payload.breed
     }
   },
   extraReducers: (builder) => {
@@ -69,6 +71,7 @@ export const { filterByName, setFavoriteDog } = breedSlice.actions;
 export const selectBreedList = (state) => state.breed.breedList;
 export const selectSubBreedDetails = (state) => state.breed.subBreedDetail;
 export const selectFavoriteDog = (state) => state.breed.favoriteDog;
+export const selectFavoriteBreedDog = (state) => state.breed.favoriteBreedDog;
 
 
 

@@ -10,7 +10,7 @@ import {
 } from '../reducers/breeds';
 import '../styles.css'
 
-const ModalGallery = ({ subBreedSelected, modalClass, setModalClass }) => {
+const ModalGallery = ({ subBreedSelected, breedSelected, modalClass, setModalClass }) => {
   const dispatch = useDispatch();
 
   const breedList = useSelector(selectBreedList);
@@ -18,22 +18,25 @@ const ModalGallery = ({ subBreedSelected, modalClass, setModalClass }) => {
   const favoriteDog = useSelector(selectFavoriteDog);
 
   const [subBreedList, setSubBreedList] = useState([]);
-  const [breedSelected, setBreedSelected] = useState('');
 
   const [isFavorite, setisFavorite] = useState(false);
 
 
   const [mClass, setmClass] = useState('');
 
-  const setFavorite = (favorite) => {
+  const setFavorite = () => {
+    let info = {
+      'breed': breedSelected,
+      'subbreed': subBreedSelected
+    };
     if (favoriteDog) {
       if (window.confirm("You have a favorite Dog. Do you want change it?")) {
-        dispatch(setFavoriteDog(favorite));
+        dispatch(setFavoriteDog(info));
         setisFavorite(true);
       }
     } else {
       setisFavorite(true);
-      dispatch(setFavoriteDog(favorite));
+      dispatch(setFavoriteDog(info));
     }
   }
 
@@ -49,7 +52,7 @@ const ModalGallery = ({ subBreedSelected, modalClass, setModalClass }) => {
   return (
     <>
       <div className={modalClass} id="myModal" tabindex="-1" aria-hidden="true">
-        <div className="modal-dialog modal-xl">
+        <div className="modal-dialog modal-xl modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Breed Gallery</h5>
@@ -66,7 +69,7 @@ const ModalGallery = ({ subBreedSelected, modalClass, setModalClass }) => {
                   <h5 className="red">Is Your favorite</h5> :
                   <button
                     className="btn btn-primary btn-small"
-                    onClick={() => setFavorite(subBreedSelected)} >Mark as favorite</button>
+                    onClick={() => setFavorite()} >Mark as favorite</button>
                 }
 
               </div>

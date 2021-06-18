@@ -18,9 +18,6 @@ const BreedList = () => {
   const [subBreedSelected, setSubBreedSelected] = useState('');
   const [modalClass, setModalClass] = useState('modal fade');
 
-  const [isFavorite, setisFavorite] = useState(false);
-
-
   const setSubBreed = (key) => {
     setBreedSelected(key)
     setSubBreedList(breedList[key]);
@@ -37,12 +34,7 @@ const BreedList = () => {
     data['subbreed'] = subbreed
 
     dispatch(getSubBreedDetails(data))
-
   }
-
-  useEffect(() => {
-
-  });
 
   return (
     <>
@@ -61,32 +53,33 @@ const BreedList = () => {
       </div>
 
       <div className="col-6">
-        {subBreedList.length > 0
-          ?
-          <>
-            <h4>Sub-breeds</h4>
-            <ul className="list-group">
-              {
-                subBreedList.map((el, index) =>
-                  <li className="pointer list-group-item"
-                    key={index}
-                    onClick={() => showDetails(el)}>
-                    {el}
-                  </li>
-                )
-              }
-            </ul>
-          </>
-          :
-          <h4>Don't has sub-breed</h4>
-        }
+        <div className="sticky-top">
+          {subBreedList.length > 0
+            ?
+            <>
+              <h4>Sub-breeds</h4>
+              <ul className="list-group">
+                {
+                  subBreedList.map((el, index) =>
+                    <li className="pointer list-group-item"
+                      key={index}
+                      onClick={() => showDetails(el)}>
+                      {el}
+                    </li>
+                  )
+                }
+              </ul>
+            </>
+            :
+            <h4>Don't has sub-breed</h4>
+          }
+        </div>
       </div>
 
       <ModalGallery
         modalClass={modalClass}
         setModalClass={setModalClass.bind()}
-        setisFavorite={setisFavorite.bind()}
-        isFavorite={isFavorite}
+        breedSelected={breedSelected}
         subBreedSelected={subBreedSelected}
 
       />
